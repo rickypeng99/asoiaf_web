@@ -13,12 +13,16 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
+import {getCookie, setCookie} from '../../Common/cookie';
+import {withRouter} from 'react-router-dom';
 const styles = {
   root: {
     flexGrow: 1,
+    marginBottom: "80px"
   },
   grow: {
     flexGrow: 1,
+    cursor: "pointer"
   },
   menuButton: {
     marginLeft: -12,
@@ -28,7 +32,7 @@ const styles = {
 
 class MenuAppBar extends React.Component {
   state = {
-    auth: true,
+    auth: false,
     anchorEl: null,
   };
 
@@ -44,6 +48,39 @@ class MenuAppBar extends React.Component {
     this.setState({ anchorEl: null });
   };
 
+  logout = () => {
+    //delete username cookie
+    setCookie('username', '', 0.1);
+    window.location.reload();
+
+  };
+
+  componentDidMount(){
+    var username = getCookie('username');
+    if(username != null){
+      this.setState({
+        auth: true
+      })
+    }
+  }
+
+  componentWillMount() {
+    //refresh when logged in
+    this.unlisten = this.props.history.listen((location, action) => {
+      var username = getCookie('username');
+      if(username != null){
+        this.setState({
+          auth: true
+        })
+      }
+    });
+  }
+
+  componentWillUnmount() {
+      this.unlisten();
+  }
+
+
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
@@ -51,20 +88,20 @@ class MenuAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <FormGroup>
+        {/* <FormGroup>
           <FormControlLabel
             control={
               <Switch checked={auth} onChange={this.handleChange} aria-label="LoginSwitch" />
             }
             label={auth ? 'Logout' : 'Login'}
           />
-        </FormGroup>
-        <AppBar position="static">
+        </FormGroup> */}
+        <AppBar position="fixed">
           <Toolbar>
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
+            <Typography variant="h6" color="inherit" className={classes.grow} onClick = {()=>{this.props.history.push('/')}}>
                 A Song of Ice and Fire - 冰与火之歌
             </Typography>
             {auth && (
@@ -93,6 +130,7 @@ class MenuAppBar extends React.Component {
                 >
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  <MenuItem onClick={this.logout}>Log out</MenuItem>
                 </Menu>
               </div>
             )}
@@ -107,4 +145,4 @@ MenuAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withRouter(withStyles(styles)(MenuAppBar));

@@ -27,11 +27,12 @@ class Detail extends Component {
     }
 
     componentDidMount() {
+        //Jon snow:
         // axios.get("https://anapioficeandfire.com/api/characters/583")
 
-
+        var id = this.props.match.params.id;
         (async () => {
-            await axios.get("api/asoiaf/character/1303")
+            await axios.get("api/asoiaf/character/" + id)
                 .then(character => {
                     if (character) {
                         this.setState({
@@ -89,7 +90,7 @@ class Detail extends Component {
         if (loaded) {
             return (
                 <div>
-                    <MenuAppBar />
+                    {/* <MenuAppBar /> */}
                     <ProfileGrid
                         //basic info
                         name={this.state.name}
@@ -110,7 +111,7 @@ class Detail extends Component {
         } else {
             return (
                 <div>
-                    <MenuAppBar />
+                    {/* <MenuAppBar /> */}
                     <div className="progress">
                         <CircularProgress></CircularProgress>
                     </div>

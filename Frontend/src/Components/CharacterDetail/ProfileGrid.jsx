@@ -5,8 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
-
-
+import { FormHelperText } from '@material-ui/core';
+import {Label} from 'semantic-ui-react'
+require('./Detail.scss')
 const styles = theme => ({
   body: {
     paddingTop: '10px',
@@ -32,6 +33,17 @@ const styles = theme => ({
     maxHeight: "100%",
   },
 
+  // house: {
+  //   //display: "flex",
+  //   // justifyContent: "space-between",
+  //   // alignItems: "space-between"
+  // },
+
+  house_image: {
+    maxWidth: "50px",
+    maxHeight: "50px",
+  },
+
   title: {
     wordWrap: 'break-word'
 
@@ -43,15 +55,15 @@ function ProfileGrid(props) {
   const name = props.name;
   //return title array
   const title = props.title.map((title, index) => {
-    if (index == props.title.length - 1) {
-      return (
-        <div key = {index}>
-          <p>{title}</p>
-          <br></br>
-        </div>
-      )
+    // if (index == props.title.length - 1) {
+    //   return (
+    //     <div key = {index}>
+    //       <p>{title}</p>
+    //       <br></br>
+    //     </div>
+    //   )
 
-    }
+    // }
     return <p key = {index}>{title}</p>
   });
 
@@ -84,69 +96,87 @@ function ProfileGrid(props) {
       <Grid container spacing={16}>
         {/* Basic Profile */}
         <Grid item xs={8}>
-          <Paper className={classes.paper}>
-            {/*Name*/}
-            <Typography variant="h4" gutterBottom >
-              {name}
-            </Typography>
-            <Divider/>
-            {/*Titles*/}
-            <Typography variant="subtitle1">
-              {title}
-            </Typography>
+          <Grid container spacing={16} direction="column">
+            <Grid item xs={12}>
+            
+              <Paper className={classes.paper}>
+                <Label as='p' color='red' ribbon>
+                  Overview
+                </Label>
+                {/*Name*/}
+                <Typography variant="h4" gutterBottom >
+                  {name}
+                </Typography>
+                <Divider/>
+                {/*Titles*/}
+                <Typography variant="subtitle1">
+                  {title}
+                </Typography>
+              </Paper>
+            </Grid>
 
-
-
-            {/**Intro */}
-            <Typography variant="h5" gutterBottom>
-              Basic Information
-            </Typography>
-            <Divider/>
-            <Typography variant="subtitle1">
-              {"Gender: " + gender}
-            </Typography>
-            <Typography variant="subtitle1">
-              {"Culture: " + culture}
-            </Typography>
-            <Typography variant="subtitle1">
-              {"Born: " + born}
-            </Typography>
-            <Typography variant="subtitle1">
-              {"Died: " + died()}
-            </Typography>
-
-          </Paper>
+          <Grid item xs={12}>
+            <Paper className={classes.paper}>
+              {/**Intro */}
+              <Typography variant="h5" gutterBottom>
+                Basic Information
+              </Typography>
+              <Divider/>
+              <Typography variant="subtitle1">
+                {"Gender: " + gender}
+              </Typography>
+              <Typography variant="subtitle1">
+                {"Culture: " + culture}
+              </Typography>
+              <Typography variant="subtitle1">
+                {"Born: " + born}
+              </Typography>
+              <Typography variant="subtitle1">
+                {"Died: " + died()}
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+         
         </Grid>
         {/* Vertical section on the right */}
         <Grid item xs={4}>
           <Grid container spacing={16} direction="column">
-
-            {/**
-            Image section
-           */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper_image}>
-                <Typography variant="h4" gutterBottom className={classes.title}>
-                  {house.data.name}
-                </Typography>
-                {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
-                <img src={require('./daenarys.jpeg')} title={"Photo of " + name} className={classes.profile_image} />
-              </Paper>
-            </Grid>
-
 
             {
               /**
                * Allegience section
                */
             }
+            
+            <Grid item xs={12}>
+              <Paper className={classes.paper_image}>
+                <Typography variant="h4" gutterBottom className={classes.title}>
+                  {house.data.name}
+                </Typography>
+                {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
+                <div class = "house">
+                  <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} />
+                  <Typography variant="h5" className={classes.title}>
+                    {name}
+                  </Typography>
+                  <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} />
+                </div>
+                
+              </Paper>
+            </Grid>
+
+            {/**
+            Image section
+           */}
+            
             <Grid item xs={12}>
               <Paper className={classes.paper_image}>
                 <Typography variant="h4" gutterBottom className={classes.title}>
                   {"Picture of " + name}
                 </Typography>
                 {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
-                <img src={require('./daenarys.jpeg')} title={"Photo of " + name} className={classes.profile_image} />
+                <img src={require('./Daenerys_targaryen_by_regochan-d7hfi57.webp')} title={"Photo of " + name} className={classes.profile_image} />
               </Paper>
             </Grid>
 

@@ -11,3 +11,23 @@ body{
     overflow-x: hidden;
 
 }
+
+.house {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+
+.cardGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+}
+.card{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
