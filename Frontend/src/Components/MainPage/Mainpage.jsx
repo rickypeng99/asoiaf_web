@@ -12,6 +12,7 @@ class MainPage extends Component {
         this.state = {
             characterNames: [],
             characterIds: [],
+            characterImages: [],
             loggedIn: false,
             //loaded: false,
         }
@@ -21,14 +22,21 @@ class MainPage extends Component {
 
         var names = []
         var ids = []
+        var images = []
         for (var i = 0; i < json['data'].length; i++) {
-            names.push(json['data'][i]['top'].replace("-", " "))
-            ids.push(parseInt(json['data'][i]['topId']))
+            var name = json['data'][i]['top']
+            var find = '-';
+            var re = new RegExp(find, 'g');
+            name = name.replace(re, ' ');
+            names.push(name);
+            ids.push(parseInt(json['data'][i]['topId']));
+            images.push(json['data'][i]['image_url']);
         }
 
         this.setState({
             characterNames: names,
             characterIds: ids,
+            characterImages: images,
             loaded: true
             // }, ()=> {
             //     console.log(this.state.characterNames)
@@ -48,21 +56,24 @@ class MainPage extends Component {
                 /**
                  * extra styles
                  */
+
+                var url = this.state.characterImages[index]
                 var liStyle = {
                     marginBottom: "10px",
                     marginLeft: "5px",
                     marginRight: "5px",
-                    cursor: "pointer"
                }
                 var imageStyle = {
                     height: "400px",
-                    backgroundImage:  `url(${require('../CharacterDetail/Daenerys_targaryen_by_regochan-d7hfi57.webp')})`,
-                    backgroundSize: "cover"
+                    backgroundImage:  `url(${url})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    cursor: "pointer"
                 }
                 return (
-                    <li style = {liStyle} onClick = {() => this.props.history.push("/Detail/" + this.state.characterIds[index])}>
+                    <li style = {liStyle} >
                         <Card>
-                            <img style = {imageStyle}/>
+                            <img style = {imageStyle} onClick = {() => this.props.history.push("/Detail/" + this.state.characterIds[index])}/>
                             <Card.Content>
                                 <Card.Header>{character}</Card.Header>
                                 <Card.Meta>Joined in 2016</Card.Meta>

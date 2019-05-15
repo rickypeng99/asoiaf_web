@@ -7,6 +7,7 @@ import Divider from '@material-ui/core/Divider';
 import { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } from 'constants';
 import { FormHelperText } from '@material-ui/core';
 import {Label} from 'semantic-ui-react'
+
 require('./Detail.scss')
 const styles = theme => ({
   body: {
@@ -87,7 +88,7 @@ function ProfileGrid(props) {
     return <p key = {i}>{bookNames[index]}</p>
   });
   const playedBy = props.playedBy;
-
+  var image_url = props.image_url;
 
 
   return (
@@ -176,7 +177,7 @@ function ProfileGrid(props) {
                   {"Picture of " + name}
                 </Typography>
                 {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
-                <img src={require('./Daenerys_targaryen_by_regochan-d7hfi57.webp')} title={"Photo of " + name} className={classes.profile_image} />
+                <img src={image_url} title={"Photo of " + name} className={classes.profile_image} />
               </Paper>
             </Grid>
 
