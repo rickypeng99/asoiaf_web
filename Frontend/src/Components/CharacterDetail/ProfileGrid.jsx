@@ -46,7 +46,7 @@ const styles = theme => ({
   },
 
   title: {
-    wordWrap: 'break-word'
+    //wordWrap: 'break-word'
 
   }
 });
@@ -156,12 +156,12 @@ function ProfileGrid(props) {
                   {house.data.name}
                 </Typography>
                 {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
-                <div class = "house">
-                  <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} />
+                <div className = "house">
+                  {/* <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} /> */}
                   <Typography variant="h5" className={classes.title}>
                     {name}
                   </Typography>
-                  <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} />
+                  {/* <img src={require('./House_Targaryen.svg')} title={"Photo of " + house.data.name} className={classes.house_image} /> */}
                 </div>
                 
               </Paper>
@@ -174,7 +174,7 @@ function ProfileGrid(props) {
             <Grid item xs={12}>
               <Paper className={classes.paper_image}>
                 <Typography variant="h4" gutterBottom className={classes.title}>
-                  {"Picture of " + name}
+                  {name}
                 </Typography>
                 {/* <img src={require('./Anonymous.png')} title={"Photo of " + name} className={classes.profile_image}/> */}
                 <img src={image_url} title={"Photo of " + name} className={classes.profile_image} />

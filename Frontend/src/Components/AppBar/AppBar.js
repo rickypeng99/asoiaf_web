@@ -13,27 +13,41 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import {getCookie, setCookie} from '../../Common/cookie';
-import {withRouter} from 'react-router-dom';
+import { getCookie, setCookie } from '../../Common/cookie';
+import { withRouter } from 'react-router-dom';
+
+import Login from "../User/Login.jsx"
 const styles = {
   root: {
     flexGrow: 1,
-    marginBottom: "80px"
+    marginBottom: "80px",
+
   },
   grow: {
-    flexGrow: 1,
+    //flexGrow: 1,
     cursor: "pointer"
   },
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
   },
+  
+  toolBar: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  toolBar2: {
+    display: "flex",
+    //justifyContent: "space-between"
+    alignItems: "center"
+  }
 };
 
 class MenuAppBar extends React.Component {
   state = {
     auth: false,
     anchorEl: null,
+    username: "",
   };
 
   handleChange = event => {
@@ -55,29 +69,29 @@ class MenuAppBar extends React.Component {
 
   };
 
-  componentDidMount(){
+  setAuthStatus = () => {
     var username = getCookie('username');
-    if(username != null){
+    if (username != null) {
       this.setState({
-        auth: true
+        auth: true,
+        username: username
       })
     }
   }
 
+  componentDidMount() {
+    this.setAuthStatus();
+  }
+
   componentWillMount() {
-    //refresh when logged in
+    //refresh when logged in (listener to the change of routes)
     this.unlisten = this.props.history.listen((location, action) => {
-      var username = getCookie('username');
-      if(username != null){
-        this.setState({
-          auth: true
-        })
-      }
+      this.setAuthStatus();
     });
   }
 
   componentWillUnmount() {
-      this.unlisten();
+    this.unlisten();
   }
 
 
@@ -85,6 +99,46 @@ class MenuAppBar extends React.Component {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
+
+
+    const showUserOrLogin = () => {
+      if (auth) {
+        return (
+          <div>
+            <IconButton
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleMenu}
+              color="inherit"
+            >
+              {/* <AccountCircle /> */}
+              Hi, {this.state.username}
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+              <MenuItem onClick={this.handleClose}>My account</MenuItem>
+              <MenuItem onClick={this.logout}>Log out</MenuItem>
+            </Menu>
+          </div>
+
+        )
+      } else {
+        return (<Login></Login>)
+      }
+    }
 
     return (
       <div className={classes.root}>
@@ -97,43 +151,17 @@ class MenuAppBar extends React.Component {
           />
         </FormGroup> */}
         <AppBar position="fixed">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow} onClick = {()=>{this.props.history.push('/')}}>
+          <Toolbar className={classes.toolBar}>
+            <div className={classes.toolBar2}>
+              <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" color="inherit" className={classes.grow} onClick={() => { this.props.history.push('/') }}>
                 A Song of Ice and Fire - 冰与火之歌
             </Typography>
-            {auth && (
-              <div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={this.handleClose}
-                >
-                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                  <MenuItem onClick={this.logout}>Log out</MenuItem>
-                </Menu>
-              </div>
-            )}
+            </div>
+
+            {showUserOrLogin()}
           </Toolbar>
         </AppBar>
       </div>

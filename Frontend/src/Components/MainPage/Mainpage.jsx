@@ -1,42 +1,59 @@
 import React, { Component } from 'react'
 import json from '../../data/characterId'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import {withRouter}  from 'react-router-dom'
-import { Card, Icon, Image } from 'semantic-ui-react'
-
+import { withRouter } from 'react-router-dom'
+import { Card, Icon, Image , Input } from 'semantic-ui-react'
+import { getCookie } from '../../Common/cookie'
 require('../CharacterDetail/Detail.scss')
 
 class MainPage extends Component {
+    //previosPos = window.pageYOffset;
+
     constructor(props) {
         super(props);
         this.state = {
+            username: "",
+            characters: [],
             characterNames: [],
             characterIds: [],
             characterImages: [],
             loggedIn: false,
             //loaded: false,
+            query: ""
         }
     }
 
-    componentDidMount() {
 
-        var names = []
-        var ids = []
-        var images = []
-        for (var i = 0; i < json['data'].length; i++) {
-            var name = json['data'][i]['top']
+    componentDidMount() {
+        var username = getCookie("username");
+        // var names = []
+        // var ids = []
+        // var images = []
+        // for (var i = 0; i < json['data'].length; i++) {
+        //     var name = json['data'][i]['top']
+        //     var find = '-';
+        //     var re = new RegExp(find, 'g');
+        //     name = name.replace(re, ' ');
+        //     names.push(name);
+        //     ids.push(parseInt(json['data'][i]['topId']));
+        //     images.push(json['data'][i]['image_url']);
+        // }
+
+        var characters = json['data']
+        for (var i = 0; i < characters.length; i++) {
+            var name = characters[i]['top'];
             var find = '-';
             var re = new RegExp(find, 'g');
             name = name.replace(re, ' ');
-            names.push(name);
-            ids.push(parseInt(json['data'][i]['topId']));
-            images.push(json['data'][i]['image_url']);
+            characters[i]['top'] = name
         }
 
         this.setState({
-            characterNames: names,
-            characterIds: ids,
-            characterImages: images,
+            // characterNames: names,
+            // characterIds: ids,
+            // characterImages: images,
+            characters: characters,
+            username: username,
             loaded: true
             // }, ()=> {
             //     console.log(this.state.characterNames)
@@ -49,33 +66,43 @@ class MainPage extends Component {
 
     }
 
+    queryHandler = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+    }
 
-    render() { 
+    queryFilter = (name) => {
+        return name['top'].toLowerCase().includes(this.state.query.toLowerCase())
+    }
+
+    render() {
+
+        var query = this.state.query
+
         if (this.state.loaded) {
-            var characterGrid = this.state.characterNames.map((character, index) => {
+            var characterGrid = this.state.characters.filter(this.queryFilter).map((character, index) => {
                 /**
                  * extra styles
                  */
 
-                var url = this.state.characterImages[index]
+                var url = character['image_url']
                 var liStyle = {
                     marginBottom: "10px",
                     marginLeft: "5px",
                     marginRight: "5px",
-               }
+                }
                 var imageStyle = {
                     height: "400px",
-                    backgroundImage:  `url(${url})`,
+                    backgroundImage: `url(${url})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     cursor: "pointer"
                 }
                 return (
-                    <li style = {liStyle} >
+                    <div style={liStyle} >
                         <Card>
-                            <img style = {imageStyle} onClick = {() => this.props.history.push("/Detail/" + this.state.characterIds[index])}/>
+                            <img style={imageStyle} onClick={() => this.props.history.push("/Detail/" + character['topId'])} />
                             <Card.Content>
-                                <Card.Header>{character}</Card.Header>
+                                <Card.Header>{character['top']}</Card.Header>
                                 <Card.Meta>Joined in 2016</Card.Meta>
                                 <Card.Description>
                                     Daniel is a comedian living in Nashville.
@@ -88,15 +115,42 @@ class MainPage extends Component {
                             </a>
                             </Card.Content>
                         </Card>
-                    </li>
+                    </div>
 
                 )
             })
 
+
+            const inputBoxStyle = {
+                textAlign: "center",
+                marginBottom: "20px"
+            } 
+
+            const inputStyle = {
+                width: "50%"
+            }
+
+
             return (
-                <ul className='cardGroup'>
-                    {characterGrid}
-                </ul>
+                <div>
+                    {/* <p>Hi, {this.state.username}</p> */}
+
+                    <div style = {inputBoxStyle}>
+                        <Input 
+                            style = {inputStyle} 
+                            size='massive' 
+                            icon='search' 
+                            placeholder='Search...' 
+                            value = {query}
+                            name = "query"
+                            onChange = {this.queryHandler}
+                            />
+                    </div>
+                    <div className='cardGroup'>
+                        {characterGrid}
+                    </div>
+
+                </div>
 
             )
         } else {

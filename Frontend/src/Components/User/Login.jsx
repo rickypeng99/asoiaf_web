@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {Card, Button, List, Image, Form, Segment, Dimmer, Loader, Input, } from 'semantic-ui-react';
-import {getCookie, setCookie} from '../../Common/cookie.js'
-import {withRouter} from 'react-router-dom'
+import React, { Component } from 'react'
+import { Card, Button, List, Image, Form, Segment, Dimmer, Loader, Input, } from 'semantic-ui-react';
+import { getCookie, setCookie } from '../../Common/cookie.js'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 
-class Login extends Component{
-    constructor(props){
+class Login extends Component {
+    constructor(props) {
         super(props)
         this.state = {
             username: "",
@@ -16,7 +16,7 @@ class Login extends Component{
     }
 
     formSubmitHandler = ((event) => {
-        const{
+        const {
             username,
             password
         } = this.state;
@@ -29,24 +29,24 @@ class Login extends Component{
             username: username,
             password: password
         })
-        .then((response) => {
-            if(response.data.success){
-                alert("Login successfully!")
-                setCookie('username', username, 0.5)
-                this.props.history.push("/");
-            } else{
+            .then((response) => {
+                if (response.data.success) {
+                    alert("Login successfully!")
+                    setCookie('username', username, 0.5)
+                    window.location.reload();
+                } else {
+                    this.setState({
+                        error: response.data.message,
+                        loading: false
+                    })
+                }
+            })
+            .catch((error) => {
                 this.setState({
-                    error: response.data.message,
+                    error: error,
                     loading: false
                 })
-            }
-        })
-        .catch((error) => {
-            this.setState({
-                error: error,
-                loading: false
             })
-        })
 
         event.preventDefault();
 
@@ -57,8 +57,8 @@ class Login extends Component{
     })
 
 
-    render(){
-        const{
+    render() {
+        const {
             username,
             password,
             loading
@@ -68,51 +68,61 @@ class Login extends Component{
             username == '' || password == ''
         )
 
-        return(
-            
-                <Segment>
-                    <Dimmer active={loading} inverted>
-                        <Loader inverted>Loading</Loader>
-                    </Dimmer>
-                    <Form onSubmit={this.formSubmitHandler}>
-                        <Form.Field>
-                            <div className="input-container">
-                                <p inline>Username</p>
-                            </div>
-                            <Input
-                                name="username"
-                                value={username}
-                                onChange={this.formInput}
-                                type="text"
-                                placeholder="admin"
-                            />
-                        </Form.Field>
-                        
-                        <Form.Field>
-                            <div className="input-container">
-                                <p>Password</p>
-    
-                            </div>
-                            <Input
-                                name="password"
-                                value={password}
-                                onChange={this.formInput}
-                                type="password"
-                            />
-                        </Form.Field>
-                        
-                        <Button primary disabled={invalid} type="submit" >
-                            Sign In
-                    </Button>
-                    </Form>
-                    {/* <div class="already">
+        const formStyle = {
+            display: "flex",
+            height: "100%",
+            alignItems: "center",
+            //justifyContents: "space-between"
+        }
+
+        const inputStyle = {
+            marginRight: "20px"
+        }
+
+        const buttonStyle = {
+            height: "50%"
+        }
+        return (
+
+            <div>
+                <Dimmer active={loading} inverted>
+                    <Loader inverted>Loading</Loader>
+                </Dimmer>
+                <Form onSubmit={this.formSubmitHandler} style={formStyle}>
+
+                        <Input
+                            label='Username'
+                            name="username"
+                            value={username}
+                            onChange={this.formInput}
+                            type="text"
+                            placeholder="admin"
+                            style={inputStyle}
+                        />
+                
+
+                 
+                        <Input
+                            label='Password'
+                            name="password"
+                            value={password}
+                            onChange={this.formInput}
+                            type="password"
+                            style={inputStyle}
+                        />
+
+                    <Button primary disabled={invalid} type="submit" style={buttonStyle}>
+                        Sign In
+                        </Button>
+                </Form>
+                {/* <div class="already">
                         <p>Already have an account?</p>
                         <Button primary onClick={() => this.props.history.push("/")}>Return and sign in!</Button>
                     </div> */}
-                </Segment>
-                
-          
-            
+            </div>
+
+
+
         )
     }
 }
