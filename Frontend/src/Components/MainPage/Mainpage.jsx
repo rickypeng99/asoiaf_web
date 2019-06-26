@@ -100,7 +100,7 @@ class MainPage extends Component {
                 return (
                     <div style={liStyle} >
                         <Card>
-                            <img style={imageStyle} onClick={() => this.props.history.push("/Detail/" + character['topId'])} />
+                            <img style={imageStyle} onClick={() => this.props.history.push("/detail/" + character['topId'])} />
                             <Card.Content>
                                 <Card.Header>{character['top']}</Card.Header>
                                 <Card.Meta>Joined in 2016</Card.Meta>

@@ -9,6 +9,7 @@ import Register from "../User/Register"
 import MenuAppBar from "../AppBar/AppBar"
 import MainPage from "../MainPage/Mainpage"
 import ScrolltoTop from "./ScrolltoTop"
+import Network from "../Network/Network"
 class App extends Component {
   render() {
     return (
@@ -19,8 +20,9 @@ class App extends Component {
             {/* Add app bar */}
             <MenuAppBar/>
             <Switch>
-              <Route exact path="/" component = {MainPage}/>
-              <Route exact path="/Detail/:id" component={Detail} />
+              <Route exact path="/" component = {Network}/>
+              <Route exact path="/main" component = {MainPage}/>
+              <Route exact path="/detail/:id" component={Detail} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/register" component={Register} />
             </Switch>

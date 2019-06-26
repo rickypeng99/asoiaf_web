@@ -5,14 +5,14 @@ class ScrollToTop extends Component {
 
 
     componentWillUpdate(prevProps) {
-        if(!this.props.location.pathname.includes("Detail")){
+        if(!this.props.location.pathname.includes("detail")){
             this.previosPos = window.pageYOffset;
         }
 
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.location.pathname.includes("Detail")) {
+        if (this.props.location.pathname.includes("detail")) {
             window.scrollTo(0, 0);
         } else {
             // console.log("previous: " + this.previosPos)
