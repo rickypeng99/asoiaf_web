@@ -14,14 +14,14 @@
 
 #### Main page (network visualization of characters' interactions)
 
-The following images are networks of Daenerys and Tyrion's
+The following images are networks of Tyrion and Daenerys's
 
-[](Screenshots/tyrion_network.png "Tyrion")
-[](Screenshots/daenerys_network.png "Daenerys") 
+![](Screenshots/tyrion_network.png)
+![](Screenshots/daenerys_network.png) 
 
 #### Character's search page
 
-[](Screenshots/main.png "search")
+![](Screenshots/main.png)
 
 
 
