@@ -16,12 +16,12 @@
 
 The following images are networks of Daenerys and Tyrion's
 
-[Tyrion Lannister](Screenshots/tyrion_network.png "Tyrion")
-[Daenerys Targaryen](Screenshots/daenerys_network.png "Daenerys") 
+[](Screenshots/tyrion_network.png "Tyrion")
+[](Screenshots/daenerys_network.png "Daenerys") 
 
 #### Character's search page
 
-[Search](Screenshots/main.png "search")
+[](Screenshots/main.png "search")
 
 
 
