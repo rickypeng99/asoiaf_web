@@ -14,7 +14,7 @@ var options = {
     height: (window.innerHeight - 75) + "px",
     layout: {
         //hierarchical: true
-        randomSeed: 7,
+        randomSeed: 8,
 
     },
 
@@ -23,7 +23,7 @@ var options = {
         //   x: false,
         //   y: false
         // },
-        //shape: "dot",
+        shape: "dot",
         size: 10,
         borderWidth: 4,
         borderWidthSelected: 2,
@@ -132,8 +132,8 @@ class Network extends Component {
                 id: node[i]["id"],
                 label: node[i]["label"],
                 value: parseInt(node[i]["value"]),
-                shape: 'image',
-                image: 'https://awoiaf.westeros.org/images/f/f6/Tyrion_lannister_Sebastian_Giacobino.jpg'
+                //shape: 'image',
+                //image: 'https://awoiaf.westeros.org/images/f/f6/Tyrion_lannister_Sebastian_Giacobino.jpg'
             })
         }
 
